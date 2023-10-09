@@ -1,40 +1,76 @@
 import Combine
+import ComposableArchitecture
 
-final class TCAPokemonDetailsViewModel: ObservableObject {
+struct TCAPokemonDetails: Reducer {
+    // MARK: - State
+    
+    struct State: Equatable {
+        let pokemonData: PokemonData
+        
+        enum ViewState: Equatable {
+            case loadingEvolutions
+            case loaded(evolutions: [String])
+            case error(String)
+        }
+        var viewState: ViewState = .loadingEvolutions
+    }
+    
+    // MARK: - Action
+    
+    enum Action: Equatable {
+        // View
+        case loadEvolutions
+        case closeButtonTapped
+        // Internal
+        case evolutionsResult(TaskResult<[String]>)
+        // Delegate
+        case delegate(DelegateAction)
+        enum DelegateAction: Equatable {
+            case closeButtonTapped
+        }
+    }
+    
     // MARK: - Dependencies
     
     var pokemonDataFetcher: PokemonDataFetching = PokemonDataFetcher.shared
     
-    // MARK: - Properties
+    // MARK: - Reducer
     
-    let pokemonData: PokemonData
-    var id: Int { pokemonData.id }
-    enum ViewState: Equatable {
-        case loadingEvolutions
-        case loaded(evolutions: [String])
-        case error(String)
-    }
-    @Published private(set) var viewState: ViewState = .loadingEvolutions
-    var onDismiss: () -> Void = {}
-        
-    // MARK: - Intialization
-    
-    init(pokemonData: PokemonData) {
-        self.pokemonData = pokemonData
-    }
-    
-    // MARK: - Public API
-    
-    @MainActor func loadEvolutions() async {
-        viewState = .loadingEvolutions
-        do {
-            let evolutionsResponse = try await pokemonDataFetcher
-                .fetchEvolutionsForPokemonURL(pokemonData.detailsURL)
-            viewState = .loaded(
-                evolutions: evolutionsResponse
+    func reduce(
+        into state: inout State,
+        action: Action
+    ) -> Effect<Action> {
+        switch action {
+        // View
+        case .loadEvolutions:
+            state.viewState = .loadingEvolutions
+            let detailsURL = state.pokemonData.detailsURL
+            return .run { send in
+                await send(
+                    .evolutionsResult(
+                        TaskResult {
+                            try await pokemonDataFetcher
+                                .fetchEvolutionsForPokemonURL(detailsURL)
+                        }
+                    )
+                )
+            }
+        case .closeButtonTapped:
+            return .send(.delegate(.closeButtonTapped))
+            
+        // Internal
+        case let .evolutionsResult(.success(evolutions)):
+            state.viewState = .loaded(
+                evolutions: evolutions
             )
-        } catch {
-            viewState = .error("Could not load evolutions 😭")
+            return .none
+            
+        case .evolutionsResult(.failure):
+            state.viewState = .error("Could not load evolutions 😭")
+            return .none
+        // Delegate
+        case .delegate:
+            return .none // those are handled on parent
         }
     }
 }
@@ -42,17 +78,19 @@ final class TCAPokemonDetailsViewModel: ObservableObject {
 import SwiftUI
 
 struct TCAPokemonDetailsScene: View {
-    @StateObject var viewModel: TCAPokemonDetailsViewModel
+    let store: StoreOf<TCAPokemonDetails>
     
     var body: some View {
         NavigationView {
             contentView()
-                .task { await viewModel.loadEvolutions() }
+                .task { store.send(.loadEvolutions) }
                 .navigationTitle("Pokemon Details")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(
-                            action: viewModel.onDismiss,
+                            action: {
+                                store.send(.closeButtonTapped)
+                            },
                             label: {
                                 Image(systemName: "multiply")
                                     .foregroundColor(.accentColor)
@@ -76,15 +114,23 @@ struct TCAPokemonDetailsScene: View {
     @ViewBuilder
     private func pokemonInfoView() -> some View {
         VStack {
-            HStack {
-                Text("#\(String(format: "%03d", viewModel.pokemonData.id))")
-                    .font(.headline)
-                Text(viewModel.pokemonData.name)
-                    .font(.title2)
-                    .fontWeight(.semibold)
+            WithViewStore(store, observe: \.pokemonData) { viewStore in
+                HStack {
+                    Text("#\(String(format: "%03d", viewStore.id))")
+                        .font(.headline)
+                    Text(viewStore.name)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                }
+                
             }
-            
-            AsyncImage(url: URL(string: viewModel.pokemonData.imageURL)!) { phase in
+        }
+    }
+    
+    @ViewBuilder
+    private func pokemonImageView(for url: URL) -> some View {
+        WithViewStore(store, observe: \.viewState) { viewStore in
+            AsyncImage(url: url) { phase in
                 switch phase {
                 case .empty:
                     ProgressView()
@@ -102,24 +148,26 @@ struct TCAPokemonDetailsScene: View {
     
     @ViewBuilder
     private func evolutionsList() -> some View {
-        switch viewModel.viewState {
-        case .loadingEvolutions:
-            ProgressView()
-        case let .loaded(evolutions):
-            VStack(alignment: .center) {
-                Text("Evolutions (\(evolutions.count))")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                List {
-                    ForEach(evolutions, id: \.self) { evolution in
-                        Text(evolution)
-                            .font(.title3)
+        WithViewStore(store, observe: \.viewState) { viewStore in
+            switch viewStore.state {
+            case .loadingEvolutions:
+                ProgressView()
+            case let .loaded(evolutions):
+                VStack(alignment: .center) {
+                    Text("Evolutions (\(evolutions.count))")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                    List {
+                        ForEach(evolutions, id: \.self) { evolution in
+                            Text(evolution)
+                                .font(.title3)
+                        }
                     }
                 }
+            case let .error(message):
+                Text(message)
+                    .foregroundColor(.red)
             }
-        case let .error(message):
-            Text(message)
-                .foregroundColor(.red)
         }
     }
 }
