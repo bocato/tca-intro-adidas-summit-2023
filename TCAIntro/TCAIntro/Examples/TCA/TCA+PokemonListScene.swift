@@ -34,8 +34,7 @@ final class TCAPokemonListViewModel: ObservableObject {
     
     // MARK: - Child Flows
     
-    @Published private(set) var pokemonDetailsViewModel: TCAPokemonDetailsViewModel?
-    
+//    @Published private(set) var pokemonDetailsViewModel: TCAPokemonDetailsViewModel?
     
     // MARK: - Intialization
 
@@ -101,16 +100,16 @@ final class TCAPokemonListViewModel: ObservableObject {
     
     func dismissPokemonDetailsModal() {
         route = nil
-        pokemonDetailsViewModel = nil
+//        pokemonDetailsViewModel = nil
     }
     
     // MARK: - Private
     
     private func selectPokemon(_ pokemonData: PokemonData) {
         route = .pokemonDetails
-        pokemonDetailsViewModel = .init(
-            pokemonData: pokemonData
-        )
+//        pokemonDetailsViewModel = .init(
+//            pokemonData: pokemonData
+//        )
         pokemonDetailsViewModel?.onDismiss = dismissPokemonDetailsModal
     }
 }
@@ -123,17 +122,17 @@ struct TCAPokemonListScene: View {
             contentView()
                 .task { await viewModel.loadPokemons() }
                 .navigationTitle("Pokemons")
-                .sheet(
-                    isPresented: .constant(viewModel.route == .pokemonDetails),
-                    onDismiss: {
-                        viewModel.dismissPokemonDetailsModal()
-                    },
-                    content: {
-                        viewModel
-                            .pokemonDetailsViewModel
-                            .map { TCAPokemonDetailsScene(viewModel: $0) }
-                    }
-                )
+//                .sheet(
+//                    isPresented: .constant(viewModel.route == .pokemonDetails),
+//                    onDismiss: {
+//                        viewModel.dismissPokemonDetailsModal()
+//                    },
+//                    content: {
+//                        viewModel
+//                            .pokemonDetailsViewModel
+//                            .map { TCAPokemonDetailsScene(viewModel: $0) }
+//                    }
+//                )
         }
     }
     

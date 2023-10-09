@@ -2,7 +2,7 @@ import Foundation
 import Combine
 import SwiftUI
 
-final class TCAFavoritesViewModel: ObservableObject {
+final class FavoritesViewModel: ObservableObject {
     // MARK: - Dependencies
     
     var logger: LoggerProtocol = DefaultLogger()
@@ -12,7 +12,7 @@ final class TCAFavoritesViewModel: ObservableObject {
     @Published var favorites: [PokemonData] = [] {
         didSet { setupCardViewModels() }
     }
-    @Published private(set) var cardViewModels: [TCAPokemonCardViewModel] = [] {
+    @Published private(set) var cardViewModels: [PokemonCardViewModel] = [] {
         didSet { bindCardViewModels() }
     }
     
@@ -25,7 +25,7 @@ final class TCAFavoritesViewModel: ObservableObject {
     
     // MARK: - Child Flows
     
-    @Published private(set) var pokemonDetailsViewModel: TCAPokemonDetailsViewModel?
+    @Published private(set) var pokemonDetailsViewModel: PokemonDetailsViewModel?
     
     // MARK: - Intialization
     
@@ -50,7 +50,7 @@ final class TCAFavoritesViewModel: ObservableObject {
     
     private func setupCardViewModels() {
         cardViewModels = favorites.map { pokemon in
-            TCAPokemonCardViewModel(
+            PokemonCardViewModel(
                 pokemonData: pokemon,
                 configs: .init(
                     loadEvolutionsEnabled: false,
@@ -94,8 +94,8 @@ final class TCAFavoritesViewModel: ObservableObject {
     }
 }
 
-struct TCAFavoritesScene: View {
-    @StateObject var viewModel: TCAFavoritesViewModel
+struct FavoritesScene: View {
+    @StateObject var viewModel: FavoritesViewModel
     
     var body: some View {
         NavigationView {
@@ -109,7 +109,7 @@ struct TCAFavoritesScene: View {
                     content: {
                         viewModel
                             .pokemonDetailsViewModel
-                            .map { TCAPokemonDetailsScene(viewModel: $0) }
+                            .map { PokemonDetailsScene(viewModel: $0) }
                     }
                 )
         }
@@ -133,7 +133,7 @@ struct TCAFavoritesScene: View {
     private func favoritesListView() -> some View {
         List {
             ForEach(viewModel.cardViewModels) { cardViewModel in
-                TCAPokemonCardView(viewModel: cardViewModel)
+                PokemonCardView(viewModel: cardViewModel)
             }
         }
         .listRowInsets(
@@ -151,9 +151,9 @@ struct TCAFavoritesScene: View {
 
 
 #if DEBUG
-struct TCAFavoritesScene_Previews: PreviewProvider {
+struct FavoritesScene_Previews: PreviewProvider {
     static var previews: some View {
-        TCAFavoritesScene(viewModel: .init())
+        FavoritesScene(viewModel: .init())
     }
 }
 #endif
