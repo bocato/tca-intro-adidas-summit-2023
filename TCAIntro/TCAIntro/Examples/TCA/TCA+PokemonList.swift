@@ -16,9 +16,9 @@ final class TCAPokemonListViewModel: ObservableObject {
         case error(String)
     }
     @Published private(set) var viewState: ViewState = .loading
-    @Published private(set) var cardViewModels: [TCAPokemonCardViewModel] = [] {
-        didSet { bindCardViewModels() }
-    }
+//    @Published private(set) var cardViewModels: [TCAPokemonCardViewModel] = [] {
+//        didSet { bindCardViewModels() }
+//    }
     
     enum Route: Equatable {
         case pokemonDetails
@@ -45,27 +45,27 @@ final class TCAPokemonListViewModel: ObservableObject {
     // MARK: - Binding
     
     private func bindCardViewModels() {
-        guard !cardViewModels.isEmpty else { return }
-        cardViewModels.forEach { cardViewModel in
-            cardViewModel
-                .$evolutionsRequestError
-                .sink { [logger] error in
-                    guard let error else { return }
-                    logger.logError(error)
-                }
-                .store(in: &subscriptions)
-            
-            cardViewModel
-                .$isFavorite
-                .removeDuplicates()
-                .sink { [weak self] isFavorite in
-                    self?.actions?.onFavoriteStateChanged(
-                        cardViewModel.pokemonData,
-                        isFavorite
-                    )
-                }
-                .store(in: &subscriptions)
-        }
+//        guard !cardViewModels.isEmpty else { return }
+//        cardViewModels.forEach { cardViewModel in
+//            cardViewModel
+//                .$evolutionsRequestError
+//                .sink { [logger] error in
+//                    guard let error else { return }
+//                    logger.logError(error)
+//                }
+//                .store(in: &subscriptions)
+//
+//            cardViewModel
+//                .$isFavorite
+//                .removeDuplicates()
+//                .sink { [weak self] isFavorite in
+//                    self?.actions?.onFavoriteStateChanged(
+//                        cardViewModel.pokemonData,
+//                        isFavorite
+//                    )
+//                }
+//                .store(in: &subscriptions)
+//        }
     }
     
     // MARK: - Public API
@@ -73,20 +73,20 @@ final class TCAPokemonListViewModel: ObservableObject {
     @MainActor func loadPokemons() async {
         guard viewState != .loaded else { return }
         viewState = .loading
-        cardViewModels = []
+//        cardViewModels = []
         do {
-            let results = try await pokemonDataFetcher.fetchOriginalPokemons()
-            cardViewModels = results.map { pokemonData in
-                let cardViewModel = TCAPokemonCardViewModel(
-                    pokemonData: pokemonData,
-                    actions: .init(
-                        onTapGesture: { [weak self] in
-                            self?.selectPokemon(pokemonData)
-                        }
-                    )
-                )
-                return cardViewModel
-            }
+//            let results = try await pokemonDataFetcher.fetchOriginalPokemons()
+//            cardViewModels = results.map { pokemonData in
+//                let cardViewModel = TCAPokemonCardViewModel(
+//                    pokemonData: pokemonData,
+//                    actions: .init(
+//                        onTapGesture: { [weak self] in
+//                            self?.selectPokemon(pokemonData)
+//                        }
+//                    )
+//                )
+//                return cardViewModel
+//            }
             viewState = .loaded
         } catch {
             viewState = .error(error.localizedDescription)
@@ -110,7 +110,7 @@ final class TCAPokemonListViewModel: ObservableObject {
 //        pokemonDetailsViewModel = .init(
 //            pokemonData: pokemonData
 //        )
-        pokemonDetailsViewModel?.onDismiss = dismissPokemonDetailsModal
+//        pokemonDetailsViewModel?.onDismiss = dismissPokemonDetailsModal
     }
 }
 
