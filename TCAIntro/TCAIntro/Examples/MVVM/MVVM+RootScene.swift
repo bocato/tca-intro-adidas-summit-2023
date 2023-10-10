@@ -11,13 +11,17 @@ final class RootSceneViewModel: ObservableObject {
     
     // MARK: - Subflows
     
-    @Published private(set) var pokemonListViewModel: PokemonListViewModel = PokemonListViewModel()
-    @Published private(set) var favoritesViewModel: FavoritesViewModel = FavoritesViewModel()
+    @Published private(set) var pokemonListViewModel: PokemonListViewModel
+    @Published private(set) var favoritesViewModel: FavoritesViewModel
     
     // MARK: - Initialization
     
-    init() {
-        print("RootSceneViewModel.init")
+    init(
+        pokemonListViewModel: PokemonListViewModel,
+        favoritesViewModel: FavoritesViewModel
+    ) {
+        self.pokemonListViewModel = pokemonListViewModel
+        self.favoritesViewModel = favoritesViewModel
         bind()
     }
     
@@ -87,10 +91,10 @@ struct RootScene: View {
     }
 }
 
-#if DEBUG
-struct RootScene_Previews: PreviewProvider {
-    static var previews: some View {
-        RootScene(viewModel: .init())
-    }
-}
-#endif
+//#if DEBUG
+//struct RootScene_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RootScene(viewModel: .init())
+//    }
+//}
+//#endif

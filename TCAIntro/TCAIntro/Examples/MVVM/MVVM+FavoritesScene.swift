@@ -5,7 +5,8 @@ import SwiftUI
 final class FavoritesViewModel: ObservableObject {
     // MARK: - Dependencies
     
-    var logger: LoggerProtocol = DefaultLogger()
+    let pokemonDataFetcher: PokemonDataFetching
+    let logger: LoggerProtocol
     
     // MARK: - Properties
     
@@ -29,8 +30,12 @@ final class FavoritesViewModel: ObservableObject {
     
     // MARK: - Intialization
     
-    init() {
-        print("FavoritesViewModel.init")
+    init(
+        pokemonDataFetcher: PokemonDataFetching,
+        logger: LoggerProtocol
+    ) {
+        self.pokemonDataFetcher = pokemonDataFetcher
+        self.logger = logger
     }
     
     // MARK: - Binding
@@ -49,18 +54,15 @@ final class FavoritesViewModel: ObservableObject {
     // MARK: - Public API
     
     private func setupCardViewModels() {
-        cardViewModels = favorites.map { pokemon in
+        cardViewModels = favorites.map { [pokemonDataFetcher] pokemon in
             PokemonCardViewModel(
                 pokemonData: pokemon,
-                configs: .init(
-                    loadEvolutionsEnabled: false,
-                    showFavoriteButton: false
-                ),
                 actions: .init(
                     onTapGesture: { [weak self] in
                         self?.selectPokemon(pokemon)
                     }
-                )
+                ),
+                pokemonDataFetcher: pokemonDataFetcher
             )
         }
     }
@@ -88,7 +90,8 @@ final class FavoritesViewModel: ObservableObject {
     private func selectPokemon(_ pokemonData: PokemonData) {
         route = .pokemonDetails
         pokemonDetailsViewModel = .init(
-            pokemonData: pokemonData
+            pokemonData: pokemonData,
+            pokemonDataFetcher: pokemonDataFetcher
         )
         pokemonDetailsViewModel?.onDismiss = dismissPokemonDetailsModal
     }
@@ -150,10 +153,10 @@ struct FavoritesScene: View {
 }
 
 
-#if DEBUG
-struct FavoritesScene_Previews: PreviewProvider {
-    static var previews: some View {
-        FavoritesScene(viewModel: .init())
-    }
-}
-#endif
+//#if DEBUG
+//struct FavoritesScene_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FavoritesScene(viewModel: .init())
+//    }
+//}
+//#endif

@@ -1,6 +1,6 @@
 import Foundation
 
-struct PokemonData: Equatable {
+struct PokemonData: Equatable, Identifiable {
     let id: Int
     let name: String
     let imageURL: String

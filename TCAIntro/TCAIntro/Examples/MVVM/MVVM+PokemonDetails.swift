@@ -3,7 +3,7 @@ import Combine
 final class PokemonDetailsViewModel: ObservableObject {
     // MARK: - Dependencies
     
-    var pokemonDataFetcher: PokemonDataFetching = PokemonDataFetcher.shared
+    let pokemonDataFetcher: PokemonDataFetching
     
     // MARK: - Properties
     
@@ -19,8 +19,12 @@ final class PokemonDetailsViewModel: ObservableObject {
         
     // MARK: - Intialization
     
-    init(pokemonData: PokemonData) {
+    init(
+        pokemonData: PokemonData,
+        pokemonDataFetcher: PokemonDataFetching
+    ) {
         self.pokemonData = pokemonData
+        self.pokemonDataFetcher = pokemonDataFetcher
     }
     
     // MARK: - Public API

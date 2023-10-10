@@ -1,30 +1,21 @@
 import Foundation
 import Combine
 import ComposableArchitecture
+import Dependencies
 import SwiftUI
 
 struct TCAPokemonCard: Reducer {
     // MARK: - State
     
     struct State: Equatable, Identifiable {
-        struct Props: Equatable {
-            let pokemonData: PokemonData
-            private(set) var loadEvolutionsEnabled: Bool = true
-            private(set) var showFavoriteButton: Bool = true
-        }
-        let props: Props
-        var favoritedButtonState: FavoriteButton
+        let pokemonData: PokemonData
+        var isFavorite: Bool = false
         var isLoadingEvolutions: Bool = false
         var evolutions: [String]?
         var evolutionsRequestError: NSError?
         
-        // Support for scoping states
-        struct FavoriteButton: Equatable {
-            let isVisible: Bool
-            var isFavorite: Bool = false
-        }
         // Identifiable
-        var id: Int { props.pokemonData.id }
+        var id: Int { pokemonData.id }
     }
     
     // MARK: - Action
@@ -46,7 +37,7 @@ struct TCAPokemonCard: Reducer {
     
     // MARK: - Dependencies
     
-    var pokemonDataFetcher: PokemonDataFetching = PokemonDataFetcher.shared
+    @Dependency(\.pokemonDataFetcher) var pokemonDataFetcher
     
     // MARK: - Reducer
     
@@ -57,7 +48,7 @@ struct TCAPokemonCard: Reducer {
         switch action {
         // View
         case .loadEvolutionsTapped:
-            let detailsURL = state.props.pokemonData.detailsURL
+            let detailsURL = state.pokemonData.detailsURL
             state.evolutionsRequestError = nil
             state.isLoadingEvolutions = true
             return .run { send in
@@ -74,11 +65,11 @@ struct TCAPokemonCard: Reducer {
             return .send(.delegate(.onContentTap))
             
         case .onFavoriteTapped:
-            state.favoritedButtonState.isFavorite.toggle()
+            state.isFavorite.toggle()
             return .send(
                 .delegate(
                     .onFavoriteToggled(
-                        state.favoritedButtonState.isFavorite
+                        state.isFavorite
                     )
                 )
             )
@@ -104,48 +95,42 @@ struct TCAPokemonCardView: View {
     let store: StoreOf<TCAPokemonCard>
     
     var body: some View {
-        WithViewStore(store, observe: \.props.loadEvolutionsEnabled) { viewStore in
-            VStack {
-                ZStack {
-                    favoriteButton()
-                    pokemonInfoView()
-                }
-                if viewStore.state {
-                    evolutionsListView()
-                }
-                Spacer()
+        VStack {
+            ZStack {
+                favoriteButton()
+                pokemonInfoView()
             }
-            .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(8)
-            .shadow(radius: 5)
+            evolutionsListView()
+            Spacer()
         }
+        .padding()
+        .background(Color(.systemGray6))
+        .cornerRadius(8)
+        .shadow(radius: 5)
     }
     
     @ViewBuilder
     private func favoriteButton() -> some View {
-        WithViewStore(store, observe: \.favoritedButtonState) { viewStore in
+        WithViewStore(store, observe: \.isFavorite) { viewStore in
             HStack(alignment: .top) {
                 Spacer()
                 Button(
                     action: { viewStore.send(.onFavoriteTapped) },
                     label: {
-                        let favoriteIcon = viewStore.isFavorite ? "heart.fill" : "heart"
-                        let iconColor: Color = viewStore.isFavorite ? .red : .gray
+                        let favoriteIcon = viewStore.state ? "heart.fill" : "heart"
+                        let iconColor: Color = viewStore.state ? .red : .gray
                         Image(systemName: favoriteIcon)
                             .foregroundColor(iconColor)
                     }
                 )
             }
-            .opacity(viewStore.isVisible ? 1 : 0)
-            .disabled(viewStore.isVisible == false)
             .padding(.horizontal)
         }
     }
     
     @ViewBuilder
     private func pokemonInfoView() -> some View {
-        WithViewStore(store, observe: \.props.pokemonData) { viewStore in
+        WithViewStore(store, observe: \.pokemonData) { viewStore in
             HStack {
                 AsyncImage(url: .unwrapped(viewStore.imageURL)) { phase in
                     switch phase {
@@ -177,9 +162,17 @@ struct TCAPokemonCardView: View {
     
     @ViewBuilder
     private func evolutionsListView() -> some View {
-        WithViewStore(store, observe: \.evolutions) { viewStore in
+        WithViewStore(
+            store, observe: {
+                (
+                    evolutions: $0.evolutions,
+                    isLoadingEvolutions: $0.isLoadingEvolutions
+                )
+            },
+            removeDuplicates: ==
+        ) { viewStore in
             VStack {
-                if let evolutions = viewStore.state {
+                if let evolutions = viewStore.evolutions {
                     VStack(alignment: .center) {
                         Text("Evolutions (\(evolutions.count))")
                             .font(.subheadline)
@@ -193,9 +186,19 @@ struct TCAPokemonCardView: View {
                     }
                     .scaledToFit()
                 } else {
-                    Button("Load Evolutions") {
-                        viewStore.send(.loadEvolutionsTapped)
-                    }.buttonStyle(.borderless)
+                    Button(
+                        action: {
+                            viewStore.send(.loadEvolutionsTapped)
+                        },
+                        label: {
+                            if viewStore.isLoadingEvolutions {
+                                ProgressView()
+                            } else {
+                                Text("Load Evolutions")
+                            }
+                        }
+                    )
+                    .buttonStyle(.borderless)
                 }
             }
         }

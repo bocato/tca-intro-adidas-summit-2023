@@ -5,16 +5,11 @@ import SwiftUI
 final class PokemonCardViewModel: ObservableObject, Identifiable {
     // MARK: - Dependencies
     
-    var pokemonDataFetcher: PokemonDataFetching =  PokemonDataFetcher.shared
+    let pokemonDataFetcher: PokemonDataFetching
     
     // MARK: - Properties
     
     let pokemonData: PokemonData
-    struct Configs {
-        var loadEvolutionsEnabled: Bool = true
-        var showFavoriteButton: Bool = true
-    }
-    let configs: Configs
     struct Actions {
         var onTapGesture: () -> Void = {}
     }
@@ -33,12 +28,12 @@ final class PokemonCardViewModel: ObservableObject, Identifiable {
     
     init(
         pokemonData: PokemonData,
-        configs: Configs = .init(),
-        actions: Actions
+        actions: Actions,
+        pokemonDataFetcher: PokemonDataFetching = PokemonDataFetcher.shared
     ) {
         self.pokemonData = pokemonData
-        self.configs = configs
         self.actions = actions
+        self.pokemonDataFetcher = pokemonDataFetcher
     }
     
     // MARK: - Public API
@@ -74,17 +69,14 @@ struct PokemonCardView: View {
     var body: some View {
         VStack {
             ZStack {
-                if viewModel.configs.showFavoriteButton {
-                    favoriteButton()
-                        .padding(.horizontal)
-                }
+                favoriteButton()
+                    .padding(.horizontal)
                 pokemonInfoView()
-                    .onTapGesture { viewModel.onCardContentTapped()
+                    .onTapGesture {
+                        viewModel.onCardContentTapped()
                     }
             }
-            if viewModel.configs.loadEvolutionsEnabled {
-                evolutionsListView()
-            }
+            evolutionsListView()
             Spacer()
         }
         .padding()
@@ -155,31 +147,40 @@ struct PokemonCardView: View {
                 }
                 .scaledToFit()
             } else {
-                Button("Load Evolutions") {
-                    Task { await viewModel.loadEvolutions() }
-                }
+                Button(
+                    action: {
+                        Task { await viewModel.loadEvolutions() }
+                    },
+                    label: {
+                        if viewModel.isLoadingEvolutions {
+                            ProgressView()
+                        } else {
+                            Text("Load Evolutions")
+                        }
+                    }
+                )
                 .buttonStyle(.borderless)
             }
         }
     }
 }
 
-#if DEBUG
-struct PokemonCardViewModel_Previews: PreviewProvider {
-    static var previews: some View {
-        PokemonCardView(
-            viewModel: .init(
-                pokemonData: .init(
-                    id: 1,
-                    name: "name",
-                    imageURL: "imageURL",
-                    detailsURL: "detailsURL"
-                ),
-                actions: .init(
-                    onTapGesture: {}
-                )
-            )
-        )
-    }
-}
-#endif
+//#if DEBUG
+//struct PokemonCardViewModel_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PokemonCardView(
+//            viewModel: .init(
+//                pokemonData: .init(
+//                    id: 1,
+//                    name: "name",
+//                    imageURL: "imageURL",
+//                    detailsURL: "detailsURL"
+//                ),
+//                actions: .init(
+//                    onTapGesture: {}
+//                )
+//            )
+//        )
+//    }
+//}
+//#endif

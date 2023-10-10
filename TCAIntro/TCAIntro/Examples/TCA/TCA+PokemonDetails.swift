@@ -1,5 +1,7 @@
 import Combine
 import ComposableArchitecture
+import Dependencies
+import SwiftUI
 
 struct TCAPokemonDetails: Reducer {
     // MARK: - State
@@ -32,7 +34,7 @@ struct TCAPokemonDetails: Reducer {
     
     // MARK: - Dependencies
     
-    var pokemonDataFetcher: PokemonDataFetching = PokemonDataFetcher.shared
+    @Dependency(\.pokemonDataFetcher) var pokemonDataFetcher
     
     // MARK: - Reducer
     
@@ -70,12 +72,10 @@ struct TCAPokemonDetails: Reducer {
             return .none
         // Delegate
         case .delegate:
-            return .none // those are handled on parent
+            return .none // We handle this in the parent 👴
         }
     }
 }
-
-import SwiftUI
 
 struct TCAPokemonDetailsScene: View {
     let store: StoreOf<TCAPokemonDetails>

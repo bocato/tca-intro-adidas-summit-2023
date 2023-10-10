@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 import ComposableArchitecture
+import Dependencies
 import SwiftUI
 
 struct TCAFavorites: Reducer {
@@ -15,7 +16,6 @@ struct TCAFavorites: Reducer {
         // Internal
         case pokemonCard(id: Int, action: TCAPokemonCard.Action)
         case navigateTo(PresentationAction<Navigation.Action>)
-        // Delegate
     }
     
     struct Navigation: Reducer {
@@ -36,7 +36,7 @@ struct TCAFavorites: Reducer {
     
     // MARK: - Dependencies
     
-    var logger: LoggerProtocol = DefaultLogger()
+    @Dependency(\.logger) var logger
     
     // MARK: - Reducer Composition
     
@@ -70,7 +70,7 @@ struct TCAFavorites: Reducer {
         // Internal
         case let .pokemonCard(id, .onContentTapped):
             guard
-                let pokemonData = state.favorites[id: id]?.props.pokemonData
+                let pokemonData = state.favorites[id: id]?.pokemonData
             else { return .none }
             state.navigation = .pokemonDetails(
                 .init(pokemonData: pokemonData)
@@ -92,7 +92,7 @@ struct TCAFavorites: Reducer {
         }
     }
     
-    // MARK: - Child Flows
+    // MARK: - Child Reducers
     
     func reducePokemonDetails(
         into state: inout State,
@@ -147,24 +147,27 @@ struct TCAFavoritesScene: View {
     
     @ViewBuilder
     private func favoritesListView() -> some View {
-        EmptyView()
-//        WithViewStore(store) { viewStore in
-//            List {
-//                ForEach(store.cardViewModels) { cardViewModel in
-//                    PokemonCardView(viewModel: cardViewModel)
-//                }
-//            }
-//            .listRowInsets(
-//                EdgeInsets(
-//                    top: 4,
-//                    leading: 4,
-//                    bottom: 4,
-//                    trailing: 4
-//                )
-//            )
-//            .listStyle(.plain)
-//            .listRowSeparator(.hidden)
-//        }
+        List {
+            ForEachStore(
+                store.scope(
+                    state: \.favorites,
+                    action: { .pokemonCard(id: $0, action: $1) }
+                ),
+                content: {
+                    TCAPokemonCardView(store: $0)
+                }
+            )
+        }
+        .listRowInsets(
+            EdgeInsets(
+                top: 4,
+                leading: 4,
+                bottom: 4,
+                trailing: 4
+            )
+        )
+        .listStyle(.plain)
+        .listRowSeparator(.hidden)
     }
 }
 
