@@ -202,11 +202,3 @@ struct TCARootScene: View {
         .tag(1)
     }
 }
-
-//#if DEBUG
-//struct TCARootScene_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TCARootScene(viewModel: .init())
-//    }
-//}
-//#endif

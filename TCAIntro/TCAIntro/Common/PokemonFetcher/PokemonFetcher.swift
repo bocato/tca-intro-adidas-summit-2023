@@ -192,7 +192,7 @@ struct PokemonDataFetchingMock: PokemonDataFetching {
         guard !fails else  {
             throw URLError(.cancelled)
         }
-        return .mockList
+        return PokemonData.mockList
     }
     
     func fetchEvolutionsForPokemonURL(_ url: String) async throws -> [String] {

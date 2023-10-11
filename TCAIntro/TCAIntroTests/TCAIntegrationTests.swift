@@ -38,7 +38,7 @@ final class TCATests: XCTestCase {
         // TODO: Continue!
     }
     
-    // Exhaustive testing
+    // NON Exhaustive testing
     func test_NON_exhaustive_whenLoadPokemons_itShouldSetViewStateToLoaded_andFillTheList() async throws {
         // Given
         let pokemonDataFetcherStub = PokemonDataFetcherStub()
@@ -61,7 +61,8 @@ final class TCATests: XCTestCase {
         sut.exhaustivity = .off(showSkippedAssertions: true)
         
         // When
-        await sut.send(.loadPokemons) {
+        await sut.send(.loadPokemons)
+        await sut.receive(.loadPokemonsResult(.success(pokemonsMock))) {
             $0.viewState = .loaded
             $0.pokemonCards = .init(
                 uniqueElements: pokemonsMock.map {

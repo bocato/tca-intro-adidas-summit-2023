@@ -151,17 +151,3 @@ struct FavoritesScene: View {
         .listRowSeparator(.hidden)
     }
 }
-
-
-//#if DEBUG
-//struct FavoritesScene_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FavoritesScene(
-//            viewModel: .init(
-//                pokemonDataFetcher: PokemonDataFetchingMock(),
-//                logger: DummyLogger()
-//            )
-//        )
-//    }
-//}
-//#endif

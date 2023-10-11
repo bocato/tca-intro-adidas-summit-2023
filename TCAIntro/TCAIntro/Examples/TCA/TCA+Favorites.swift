@@ -169,11 +169,3 @@ struct TCAFavoritesScene: View {
         .listRowSeparator(.hidden)
     }
 }
-
-//#if DEBUG
-//struct TCAFavoritesScene_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TCAFavoritesScene(viewModel: .init())
-//    }
-//}
-//#endif

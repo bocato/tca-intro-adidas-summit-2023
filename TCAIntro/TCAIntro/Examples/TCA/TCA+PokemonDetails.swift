@@ -168,12 +168,3 @@ struct TCAPokemonDetailsScene: View {
         }
     }
 }
-
-//#if DEBUG
-//struct PokemonDetailsScene_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let samplePokemon = PokemonData(number: 1, name: "Bulbasaur", details: "A grass/poison type Pokémon.", imageName: "bulbasaur")
-//        return PokemonDetailsScene(viewModel: PokemonDetailsViewModel(pokemon: samplePokemon))
-//    }
-//}
-//#endif

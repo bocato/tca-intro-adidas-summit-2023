@@ -248,7 +248,7 @@ struct TCAPokemonListScene_Previews: PreviewProvider {
 
 import IdentifiedCollections
 
-private func makeMockCards() -> IdentifiedArrayOf<[TCAPokemonCard.State]> {
+private func makeMockCards() -> IdentifiedArrayOf<TCAPokemonCard.State> {
     return .init(
         uniqueElements: PokemonData.mockList.map {
             TCAPokemonCard.State(pokemonData: $0)

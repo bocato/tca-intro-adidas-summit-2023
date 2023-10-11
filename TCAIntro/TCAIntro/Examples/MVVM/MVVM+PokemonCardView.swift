@@ -164,23 +164,3 @@ struct PokemonCardView: View {
         }
     }
 }
-
-//#if DEBUG
-//struct PokemonCardViewModel_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PokemonCardView(
-//            viewModel: .init(
-//                pokemonData: .init(
-//                    id: 1,
-//                    name: "name",
-//                    imageURL: "imageURL",
-//                    detailsURL: "detailsURL"
-//                ),
-//                actions: .init(
-//                    onTapGesture: {}
-//                )
-//            )
-//        )
-//    }
-//}
-//#endif
