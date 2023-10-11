@@ -123,7 +123,6 @@ struct TCAFavoritesScene: View {
                     ),
                     state: /TCAFavorites.Navigation.State.pokemonDetails,
                     action: TCAFavorites.Navigation.Action.pokemonDetails,
-                    onDismiss: {},
                     content: { TCAPokemonDetailsScene(store: $0) }
                 )
         }

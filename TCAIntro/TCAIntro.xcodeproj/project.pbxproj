@@ -10,7 +10,6 @@
 		91294EB02ACD667300534D68 /* TCAIntroApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91294EAF2ACD667300534D68 /* TCAIntroApp.swift */; };
 		91294EB42ACD667500534D68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91294EB32ACD667500534D68 /* Assets.xcassets */; };
 		91294EB72ACD667500534D68 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91294EB62ACD667500534D68 /* Preview Assets.xcassets */; };
-		91294EC12ACD667500534D68 /* TCAIntroTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91294EC02ACD667500534D68 /* TCAIntroTests.swift */; };
 		91294EDB2ACD7FF900534D68 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 91294EDA2ACD7FF900534D68 /* ComposableArchitecture */; };
 		91294EE62ACD844B00534D68 /* MVVM+RootScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91294EE52ACD844B00534D68 /* MVVM+RootScene.swift */; };
 		91294EF62ACF037800534D68 /* MVVM+PokemonListScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91294EF52ACF037800534D68 /* MVVM+PokemonListScene.swift */; };
@@ -19,6 +18,7 @@
 		91294EFF2ACF0E2C00534D68 /* PokemonFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91294EFE2ACF0E2C00534D68 /* PokemonFetcher.swift */; };
 		91294F012ACF0F2E00534D68 /* PokeAPIResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91294F002ACF0F2E00534D68 /* PokeAPIResponses.swift */; };
 		91294F062AD0137300534D68 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91294F052AD0137300534D68 /* LaunchScreenView.swift */; };
+		E5A18D672AD65D82008EA83E /* TCAIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A18D662AD65D82008EA83E /* TCAIntegrationTests.swift */; };
 		E5B839B12AD1ED3200D4FE92 /* MVVM+PokemonCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B839B02AD1ED3200D4FE92 /* MVVM+PokemonCardView.swift */; };
 		E5B839B42AD1F11E00D4FE92 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B839B32AD1F11E00D4FE92 /* Logger.swift */; };
 		E5BD82122AD40DF80034CEC9 /* TCA+PokemonCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BD820D2AD40DF80034CEC9 /* TCA+PokemonCard.swift */; };
@@ -27,17 +27,11 @@
 		E5BD82152AD40DF80034CEC9 /* TCA+PokemonDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BD82102AD40DF80034CEC9 /* TCA+PokemonDetails.swift */; };
 		E5BD82162AD40DF80034CEC9 /* TCA+RootScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BD82112AD40DF80034CEC9 /* TCA+RootScene.swift */; };
 		E5BD82192AD588050034CEC9 /* TCA+DI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BD82182AD588050034CEC9 /* TCA+DI.swift */; };
+		E5BD821D2AD64DD10034CEC9 /* MVVMIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BD821C2AD64DD10034CEC9 /* MVVMIntegrationTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		91294EBD2ACD667500534D68 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 91294EA42ACD667300534D68 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 91294EAB2ACD667300534D68;
-			remoteInfo = TCAIntro;
-		};
-		91294EC72ACD667500534D68 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 91294EA42ACD667300534D68 /* Project object */;
 			proxyType = 1;
@@ -52,8 +46,6 @@
 		91294EB32ACD667500534D68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		91294EB62ACD667500534D68 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		91294EBC2ACD667500534D68 /* TCAIntroTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TCAIntroTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		91294EC02ACD667500534D68 /* TCAIntroTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCAIntroTests.swift; sourceTree = "<group>"; };
-		91294EC62ACD667500534D68 /* TCAIntroUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TCAIntroUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		91294EE52ACD844B00534D68 /* MVVM+RootScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MVVM+RootScene.swift"; sourceTree = "<group>"; };
 		91294EF52ACF037800534D68 /* MVVM+PokemonListScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MVVM+PokemonListScene.swift"; sourceTree = "<group>"; };
 		91294EF72ACF039C00534D68 /* MVVM+FavoritesScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MVVM+FavoritesScene.swift"; sourceTree = "<group>"; };
@@ -62,6 +54,8 @@
 		91294F002ACF0F2E00534D68 /* PokeAPIResponses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokeAPIResponses.swift; sourceTree = "<group>"; };
 		91294F042AD00D9D00534D68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		91294F052AD0137300534D68 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
+		E5A18D662AD65D82008EA83E /* TCAIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCAIntegrationTests.swift; sourceTree = "<group>"; };
+		E5A18D682AD66EE4008EA83E /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = file; name = TestPlan.xctestplan; path = TCAIntro/TestPlan.xctestplan; sourceTree = SOURCE_ROOT; };
 		E5B839B02AD1ED3200D4FE92 /* MVVM+PokemonCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MVVM+PokemonCardView.swift"; sourceTree = "<group>"; };
 		E5B839B32AD1F11E00D4FE92 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		E5BD820D2AD40DF80034CEC9 /* TCA+PokemonCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TCA+PokemonCard.swift"; sourceTree = "<group>"; };
@@ -70,6 +64,7 @@
 		E5BD82102AD40DF80034CEC9 /* TCA+PokemonDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TCA+PokemonDetails.swift"; sourceTree = "<group>"; };
 		E5BD82112AD40DF80034CEC9 /* TCA+RootScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TCA+RootScene.swift"; sourceTree = "<group>"; };
 		E5BD82182AD588050034CEC9 /* TCA+DI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TCA+DI.swift"; sourceTree = "<group>"; };
+		E5BD821C2AD64DD10034CEC9 /* MVVMIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMIntegrationTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,13 +77,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		91294EB92ACD667500534D68 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		91294EC32ACD667500534D68 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -112,7 +100,6 @@
 			children = (
 				91294EAC2ACD667300534D68 /* TCAIntro.app */,
 				91294EBC2ACD667500534D68 /* TCAIntroTests.xctest */,
-				91294EC62ACD667500534D68 /* TCAIntroUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -141,7 +128,9 @@
 		91294EBF2ACD667500534D68 /* TCAIntroTests */ = {
 			isa = PBXGroup;
 			children = (
-				91294EC02ACD667500534D68 /* TCAIntroTests.swift */,
+				E5BD821C2AD64DD10034CEC9 /* MVVMIntegrationTests.swift */,
+				E5A18D662AD65D82008EA83E /* TCAIntegrationTests.swift */,
+				E5A18D682AD66EE4008EA83E /* TestPlan.xctestplan */,
 			);
 			path = TCAIntroTests;
 			sourceTree = "<group>";
@@ -248,24 +237,6 @@
 			productReference = 91294EBC2ACD667500534D68 /* TCAIntroTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		91294EC52ACD667500534D68 /* TCAIntroUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 91294ED62ACD667500534D68 /* Build configuration list for PBXNativeTarget "TCAIntroUITests" */;
-			buildPhases = (
-				91294EC22ACD667500534D68 /* Sources */,
-				91294EC32ACD667500534D68 /* Frameworks */,
-				91294EC42ACD667500534D68 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				91294EC82ACD667500534D68 /* PBXTargetDependency */,
-			);
-			name = TCAIntroUITests;
-			productName = TCAIntroUITests;
-			productReference = 91294EC62ACD667500534D68 /* TCAIntroUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -281,10 +252,7 @@
 					};
 					91294EBB2ACD667500534D68 = {
 						CreatedOnToolsVersion = 14.3.1;
-						TestTargetID = 91294EAB2ACD667300534D68;
-					};
-					91294EC52ACD667500534D68 = {
-						CreatedOnToolsVersion = 14.3.1;
+						LastSwiftMigration = 1430;
 						TestTargetID = 91294EAB2ACD667300534D68;
 					};
 				};
@@ -307,7 +275,6 @@
 			targets = (
 				91294EAB2ACD667300534D68 /* TCAIntro */,
 				91294EBB2ACD667500534D68 /* TCAIntroTests */,
-				91294EC52ACD667500534D68 /* TCAIntroUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -323,13 +290,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		91294EBA2ACD667500534D68 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		91294EC42ACD667500534D68 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -366,14 +326,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91294EC12ACD667500534D68 /* TCAIntroTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		91294EC22ACD667500534D68 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				E5BD821D2AD64DD10034CEC9 /* MVVMIntegrationTests.swift in Sources */,
+				E5A18D672AD65D82008EA83E /* TCAIntegrationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,11 +338,6 @@
 			isa = PBXTargetDependency;
 			target = 91294EAB2ACD667300534D68 /* TCAIntro */;
 			targetProxy = 91294EBD2ACD667500534D68 /* PBXContainerItemProxy */;
-		};
-		91294EC82ACD667500534D68 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 91294EAB2ACD667300534D68 /* TCAIntro */;
-			targetProxy = 91294EC72ACD667500534D68 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -572,6 +521,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TPLF234WYY;
@@ -581,6 +531,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.adidas.TCAIntroTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TCAIntro.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TCAIntro";
@@ -592,6 +543,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TPLF234WYY;
@@ -604,42 +556,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TCAIntro.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TCAIntro";
-			};
-			name = Release;
-		};
-		91294ED72ACD667500534D68 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TPLF234WYY;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.adidas.TCAIntroUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = TCAIntro;
-			};
-			name = Debug;
-		};
-		91294ED82ACD667500534D68 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TPLF234WYY;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.adidas.TCAIntroUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = TCAIntro;
 			};
 			name = Release;
 		};
@@ -669,15 +585,6 @@
 			buildConfigurations = (
 				91294ED42ACD667500534D68 /* Debug */,
 				91294ED52ACD667500534D68 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		91294ED62ACD667500534D68 /* Build configuration list for PBXNativeTarget "TCAIntroUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				91294ED72ACD667500534D68 /* Debug */,
-				91294ED82ACD667500534D68 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

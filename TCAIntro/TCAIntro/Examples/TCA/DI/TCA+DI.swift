@@ -5,6 +5,7 @@ extension DependencyValues {
     enum PokemonDataFetcherKey: DependencyKey {
         typealias Value = PokemonDataFetching
         static var liveValue: PokemonDataFetching = PokemonDataFetcher()
+        static var testValue: PokemonDataFetching = PokemonDataFetcherFailing()
     }
     
     var pokemonDataFetcher: PokemonDataFetching {

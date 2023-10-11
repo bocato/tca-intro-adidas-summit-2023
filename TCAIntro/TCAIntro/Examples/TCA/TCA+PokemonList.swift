@@ -219,12 +219,39 @@ struct TCAPokemonListScene: View {
     }
 }
 
-//#if DEBUG
-//struct TCAPokemonListScene_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TCAPokemonListScene(
-//            viewModel: .init()
-//        )
-//    }
-//}
-//#endif
+#if DEBUG
+struct TCAPokemonListScene_Previews: PreviewProvider {
+    static var previews: some View {
+        TCAPokemonListScene(
+            store: .init(
+                initialState: .init(
+                    viewState: .loaded,
+                    pokemonCards: makeMockCards()
+                ),
+                reducer: { EmptyReducer() }
+            )
+        )
+        .previewDisplayName("Loaded List")
+        
+        TCAPokemonListScene(
+            store: .init(
+                initialState: .init(
+                    viewState: .error("Some Error")
+                ),
+                reducer: { EmptyReducer() }
+            )
+        )
+        .previewDisplayName("Error")
+    }
+}
+#endif
+
+import IdentifiedCollections
+
+private func makeMockCards() -> IdentifiedArrayOf<[TCAPokemonCard.State]> {
+    return .init(
+        uniqueElements: PokemonData.mockList.map {
+            TCAPokemonCard.State(pokemonData: $0)
+        }
+    )
+}

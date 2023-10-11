@@ -41,7 +41,7 @@ final class PokemonListViewModel: ObservableObject {
 
     init(
         pokemonDataFetcher: PokemonDataFetching,
-        logger: LoggerProtocol = DefaultLogger()
+        logger: LoggerProtocol
     ) {
         self.pokemonDataFetcher = pokemonDataFetcher
         self.logger = logger
@@ -184,12 +184,24 @@ struct PokemonListScene: View {
     }
 }
 
-//#if DEBUG
-//struct PokemonListScene_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PokemonListScene(
-//            viewModel: .init()
-//        )
-//    }
-//}
-//#endif
+#if DEBUG
+struct PokemonListScene_Previews: PreviewProvider {
+    static var previews: some View {
+        PokemonListScene(
+            viewModel: .init(
+                pokemonDataFetcher: PokemonDataFetchingMock(),
+                logger: DummyLogger()
+            )
+        )
+        .previewDisplayName("Loaded List")
+        
+        PokemonListScene(
+            viewModel: .init(
+                pokemonDataFetcher: PokemonDataFetchingMock(fails: true),
+                logger: DummyLogger()
+            )
+        )
+        .previewDisplayName("Error")
+    }
+}
+#endif

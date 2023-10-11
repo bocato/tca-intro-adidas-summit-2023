@@ -113,8 +113,8 @@ struct TCAPokemonDetailsScene: View {
     
     @ViewBuilder
     private func pokemonInfoView() -> some View {
-        VStack {
-            WithViewStore(store, observe: \.pokemonData) { viewStore in
+        WithViewStore(store, observe: \.pokemonData) { viewStore in
+            VStack {
                 HStack {
                     Text("#\(String(format: "%03d", viewStore.id))")
                         .font(.headline)
@@ -122,26 +122,23 @@ struct TCAPokemonDetailsScene: View {
                         .font(.title2)
                         .fontWeight(.semibold)
                 }
-                
             }
         }
     }
     
     @ViewBuilder
     private func pokemonImageView(for url: URL) -> some View {
-        WithViewStore(store, observe: \.viewState) { viewStore in
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .empty:
-                    ProgressView()
-                case .success(let image):
-                    image.resizable()
-                        .scaledToFit()
-                case .failure:
-                    Image(systemName: "xmark.circle")
-                @unknown default:
-                    EmptyView()
-                }
+        AsyncImage(url: url) { phase in
+            switch phase {
+            case .empty:
+                ProgressView()
+            case .success(let image):
+                image.resizable()
+                    .scaledToFit()
+            case .failure:
+                Image(systemName: "xmark.circle")
+            @unknown default:
+                EmptyView()
             }
         }
     }

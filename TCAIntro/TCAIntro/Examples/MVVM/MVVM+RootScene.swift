@@ -91,10 +91,10 @@ struct RootScene: View {
     }
 }
 
-//#if DEBUG
-//struct RootScene_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RootScene(viewModel: .init())
-//    }
-//}
-//#endif
+#if DEBUG
+struct RootScene_Previews: PreviewProvider {
+    static var previews: some View {
+        RootScene(viewModel: .init())
+    }
+}
+#endif

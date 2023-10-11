@@ -174,23 +174,65 @@ extension PokemonData {
             detailsURL: detailsURL
         )
     }
+    
+    static let mockList: [PokemonData] = [
+        .fixture(id: 1),
+        .fixture(id: 2),
+        .fixture(id: 3)
+    ]
 }
 
-struct PokemonDataFetchingDummy: PokemonDataFetching {
+struct PokemonDataFetchingMock: PokemonDataFetching {
+    let fails: Bool
+    init(fails: Bool = false) {
+        self.fails = fails
+    }
+    
     func fetchOriginalPokemons() async throws -> [PokemonData] {
-        [
-            .fixture(id: 1),
-            .fixture(id: 2),
-            .fixture(id: 3)
-        ]
+        guard !fails else  {
+            throw URLError(.cancelled)
+        }
+        return .mockList
     }
     
     func fetchEvolutionsForPokemonURL(_ url: String) async throws -> [String] {
-        [
+        guard !fails else  {
+            throw URLError(.cancelled)
+        }
+        return [
             "Evolution 1",
             "Evolution 2",
             "Evolution 3"
         ]
     }
 }
+
+final class PokemonDataFetcherStub: PokemonDataFetching {
+    init() {}
+    
+    var fetchOriginalPokemonsResultToBeReturned: Result<[PokemonData], Error> = .success([])
+    func fetchOriginalPokemons() async throws -> [PokemonData] {
+        try fetchOriginalPokemonsResultToBeReturned.get()
+    }
+    
+    var fetchEvolutionsForPokemonURLToBeReturned: Result<[String], Error> = .success([])
+    func fetchEvolutionsForPokemonURL(_ url: String) async throws -> [String] {
+        try fetchEvolutionsForPokemonURLToBeReturned.get()
+    }
+}
+
+import XCTestDynamicOverlay
+
+struct PokemonDataFetcherFailing: PokemonDataFetching {
+    func fetchOriginalPokemons() async throws -> [PokemonData] {
+        XCTFail("\(#function) was not implemented.")
+        return []
+    }
+    
+    func fetchEvolutionsForPokemonURL(_ url: String) async throws -> [String] {
+        XCTFail("\(#function) was not implemented.")
+        return []
+    }
+}
+
 #endif
