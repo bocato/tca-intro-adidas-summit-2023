@@ -3,7 +3,7 @@ import Combine
 final class PokemonDetailsViewModel: ObservableObject {
     // MARK: - Dependencies
     
-    var pokemonDataFetcher: PokemonDataFetching = PokemonDataFetcher.shared
+    let pokemonDataFetcher: PokemonDataFetching
     
     // MARK: - Properties
     
@@ -19,8 +19,12 @@ final class PokemonDetailsViewModel: ObservableObject {
         
     // MARK: - Intialization
     
-    init(pokemonData: PokemonData) {
+    init(
+        pokemonData: PokemonData,
+        pokemonDataFetcher: PokemonDataFetching
+    ) {
         self.pokemonData = pokemonData
+        self.pokemonDataFetcher = pokemonDataFetcher
     }
     
     // MARK: - Public API
@@ -123,12 +127,3 @@ struct PokemonDetailsScene: View {
         }
     }
 }
-
-//#if DEBUG
-//struct PokemonDetailsScene_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let samplePokemon = PokemonData(number: 1, name: "Bulbasaur", details: "A grass/poison type Pokémon.", imageName: "bulbasaur")
-//        return PokemonDetailsScene(viewModel: PokemonDetailsViewModel(pokemon: samplePokemon))
-//    }
-//}
-//#endif

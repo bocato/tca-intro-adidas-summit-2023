@@ -5,8 +5,8 @@ import SwiftUI
 final class PokemonListViewModel: ObservableObject {
     // MARK: - Dependencies
     
-    var pokemonDataFetcher: PokemonDataFetching = PokemonDataFetcher.shared
-    var logger: LoggerProtocol = DefaultLogger()
+    let pokemonDataFetcher: PokemonDataFetching
+    let logger: LoggerProtocol
     
     // MARK: - Properties
     
@@ -39,8 +39,12 @@ final class PokemonListViewModel: ObservableObject {
     
     // MARK: - Intialization
 
-    init() {
-        print("PokemonListViewModel.init")
+    init(
+        pokemonDataFetcher: PokemonDataFetching,
+        logger: LoggerProtocol
+    ) {
+        self.pokemonDataFetcher = pokemonDataFetcher
+        self.logger = logger
     }
     
     // MARK: - Binding
@@ -77,14 +81,15 @@ final class PokemonListViewModel: ObservableObject {
         cardViewModels = []
         do {
             let results = try await pokemonDataFetcher.fetchOriginalPokemons()
-            cardViewModels = results.map { pokemonData in
+            cardViewModels = results.map { [pokemonDataFetcher] pokemonData in
                 let cardViewModel = PokemonCardViewModel(
                     pokemonData: pokemonData,
                     actions: .init(
                         onTapGesture: { [weak self] in
                             self?.selectPokemon(pokemonData)
                         }
-                    )
+                    ),
+                    pokemonDataFetcher: pokemonDataFetcher
                 )
                 return cardViewModel
             }
@@ -109,7 +114,8 @@ final class PokemonListViewModel: ObservableObject {
     private func selectPokemon(_ pokemonData: PokemonData) {
         route = .pokemonDetails
         pokemonDetailsViewModel = .init(
-            pokemonData: pokemonData
+            pokemonData: pokemonData,
+            pokemonDataFetcher: pokemonDataFetcher
         )
         pokemonDetailsViewModel?.onDismiss = dismissPokemonDetailsModal
     }
@@ -182,8 +188,20 @@ struct PokemonListScene: View {
 struct PokemonListScene_Previews: PreviewProvider {
     static var previews: some View {
         PokemonListScene(
-            viewModel: .init()
+            viewModel: .init(
+                pokemonDataFetcher: PokemonDataFetchingMock(),
+                logger: DummyLogger()
+            )
         )
+        .previewDisplayName("Loaded List")
+        
+        PokemonListScene(
+            viewModel: .init(
+                pokemonDataFetcher: PokemonDataFetchingMock(fails: true),
+                logger: DummyLogger()
+            )
+        )
+        .previewDisplayName("Error")
     }
 }
 #endif

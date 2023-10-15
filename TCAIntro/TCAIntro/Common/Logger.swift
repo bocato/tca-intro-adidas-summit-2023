@@ -18,3 +18,9 @@ struct DefaultLogger: LoggerProtocol {
         #endif
     }
 }
+
+#if DEBUG
+struct DummyLogger: LoggerProtocol {
+    func logError(_ error: Error) {}
+}
+#endif
